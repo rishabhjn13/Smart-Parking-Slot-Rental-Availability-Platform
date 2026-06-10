@@ -166,7 +166,8 @@ src/
 ├── hooks/          # Custom React hooks
 ├── store/          # Zustand stores
 ├── lib/            # Utilities, API client, constants
-└── types/          # TypeScript type definitions
+├── types/          # TypeScript type definitions
+├── tests/          # Unit tests
 ```
 
 ---
