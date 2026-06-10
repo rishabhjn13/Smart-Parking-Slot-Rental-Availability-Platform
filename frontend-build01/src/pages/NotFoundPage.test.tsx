@@ -3,6 +3,18 @@ import { describe, it, expect, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import NotFoundPage from '../pages/NotFoundPage'
 
+// 1. Define the mock variable at the top-level scope using the 'vi' prefix
+const viNavigate = vi.fn()
+
+// 2. Mock 'react-router-dom' globally at the file level so Vitest can safely hoist it
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react-router-dom')>()
+  return {
+    ...actual,
+    useNavigate: () => viNavigate,
+  }
+})
+
 const renderPage = () =>
   render(
     <MemoryRouter>
@@ -11,6 +23,11 @@ const renderPage = () =>
   )
 
 describe('NotFoundPage', () => {
+  // Clear the mock calls before each test to ensure clean test isolation
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('renders the 404 heading', () => {
     renderPage()
     expect(screen.getByRole('heading', { name: '404' })).toBeInTheDocument()
@@ -27,14 +44,12 @@ describe('NotFoundPage', () => {
   })
 
   it('calls navigate(-1) when Go Back is clicked', () => {
-    const mockNavigate = vi.fn()
-    vi.mock('react-router-dom', async (importOriginal) => ({
-      ...(await importOriginal<typeof import('react-router-dom')>()),
-      useNavigate: () => mockNavigate,
-    }))
-
     renderPage()
+    
+    // Click the button
     fireEvent.click(screen.getByRole('button', { name: /go back/i }))
-    expect(mockNavigate).toHaveBeenCalledWith(-1)
+    
+    // Assert against our top-level 'vi' prefixed mock
+    expect(viNavigate).toHaveBeenCalledWith(-1)
   })
 })
