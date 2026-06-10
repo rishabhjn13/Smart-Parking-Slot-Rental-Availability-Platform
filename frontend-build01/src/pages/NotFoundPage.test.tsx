@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import NotFoundPage from '../pages/NotFoundPage'
 
@@ -45,10 +45,10 @@ describe('NotFoundPage', () => {
 
   it('calls navigate(-1) when Go Back is clicked', () => {
     renderPage()
-    
+
     // Click the button
     fireEvent.click(screen.getByRole('button', { name: /go back/i }))
-    
+
     // Assert against our top-level 'vi' prefixed mock
     expect(viNavigate).toHaveBeenCalledWith(-1)
   })
