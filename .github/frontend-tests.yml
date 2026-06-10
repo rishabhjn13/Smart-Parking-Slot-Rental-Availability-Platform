@@ -1,11 +1,11 @@
 name: Frontend CI
 
-# Trigger the workflow on pushes or pull requests to the main branch [cite: 11, 12]
+# Trigger the workflow on pushes or pull requests to the master branch [cite: 11, 12]
 on:
   push:
-    branches: [ main, master ]
+    branches: [ develop, master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ develop, master ]
 
 jobs:
   run-tests:
