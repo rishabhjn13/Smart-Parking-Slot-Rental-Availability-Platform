@@ -1,4 +1,4 @@
-import { useEffect, useRef, FormEvent } from "react";
+import { useEffect, useRef, type FormEvent } from "react";
 
 // ─── WebGL animated grid background ───────────────────────────────────────────
 function useShaderBackground(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
